@@ -10,5 +10,7 @@
 #import "NSMutableAttributedString+ChangeStyle.h"
 
 @interface BaseLabel : UILabel
-@property (nonatomic,strong) NSMutableAttributedString *attributedStr;
+//@property (nonatomic,strong) NSMutableAttributedString *attributedStr;
+@property (nonatomic,assign) CGSize currentTextSize;
+- (void)reloadFramestter;
 @end

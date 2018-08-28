@@ -178,20 +178,20 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 
-+ (instancetype) createWithImage: (UIImage *)image {
++ (instancetype) createWithImage: (UIImage *)image size: (CGSize)imageSize{
     //创建Attachment Str
     NSTextAttachment * attach = [[NSTextAttachment alloc] init];
     attach.image = image;
-    attach.bounds = CGRectMake(0, 0, 20, 20);
+    attach.bounds = CGRectMake(0, 0, imageSize.width, imageSize.height);
     NSAttributedString * imageStr = [NSAttributedString attributedStringWithAttachment:attach];
     //添加
     NSMutableAttributedString * mutableAttriStr = [[NSMutableAttributedString alloc] initWithString:@""];
     [mutableAttriStr appendAttributedString:imageStr];
     return mutableAttriStr;
 }
-+ (instancetype) createWithImageNmae: (NSString *)name {
++ (instancetype) createWithImageNmae: (NSString *)name andImageSize: (CGSize)imageSize {
     UIImage *image = [UIImage imageNamed:name];
-    return [self createWithImage:image];
+    return [self createWithImage:image size: imageSize];
 }
 
 - (NSRange) getRange {

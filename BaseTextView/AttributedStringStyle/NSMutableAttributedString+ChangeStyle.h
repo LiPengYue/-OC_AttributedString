@@ -14,9 +14,8 @@
 typedef void(^SingleCallBack)(void);
 
 @interface NSMutableAttributedString (ChangeStyle)
-
-+ (instancetype) createWithImageNmae: (NSString *)name;
-+ (instancetype) createWithImage: (UIImage *)image;
++ (instancetype) createWithImage: (UIImage *)image size: (CGSize)imageSize;
++ (instancetype) createWithImageNmae: (NSString *)name andImageSize: (CGSize)imageSize;
 - (NSRange) getSelfRange;
 - (CFRange) getCfRange;
 

@@ -8,14 +8,14 @@
 
 #import "PresentViewController.h"
 #import "BaseTextView.h"
-
+#import "BaseLabel.h"
 @interface PresentViewController ()
 @property (nonatomic,strong) BaseTextView *textView;
 @end
 
 @implementation PresentViewController
 - (NSString *)getString {
-    return @"$哈$哈*哈<哈>#哈哈哈哈哈#哈哈哈哈哈#哈哈哈$哈$哈哈哈$哈哈$哈哈哈哈哈哈$哈哈哈#哈哈哈#哈#哈哈#哈哈哈#哈哈哈,<哈哈<哈>#哈哈哈哈#哈哈哈哈哈哈哈哈哈哈或或或或或或#哈哈哈哈哈#或或或或或heh";
+    return @"$哈$哈*哈<哈>#哈哈哈哈哈#哈哈哈哈哈#哈哈哈$哈$哈哈哈$哈哈$哈哈哈哈哈哈$哈哈哈#哈哈哈#哈#哈哈#哈哈哈#哈哈哈,<哈哈<哈>#哈哈哈哈#哈哈哈哈哈哈哈哈哈哈或或或或或或#哈哈哈哈哈#或或或或或hfjhalfieh$哈$哈*哈<哈>#哈哈哈哈哈#哈哈哈哈哈#哈哈哈$哈$哈哈哈$哈哈$哈哈哈哈哈哈$哈哈哈#哈哈哈#哈#哈哈#哈哈哈#哈哈";
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,24 +60,35 @@
                 });
             }];
         }];
-        
     }
 
+    NSMutableAttributedString *attributedImageStr = [NSMutableAttributedString createWithImage:[UIImage imageNamed:@"1"] size:CGSizeMake(40, 140)];
+    attributedImageStr.font([UIFont systemFontOfSize:40 weight:140]);
+//    [attributedStringM appendAttributedString:attributedImageStr];
     
-    UILabel *label = [[UILabel alloc]init];
     CGRect rect = self.view.bounds;
-    rect.origin.y -= 40;
-    rect.size.height -= 40;
+    rect.origin.y += 40;
+    rect.origin.x += 50;
+    rect.size.height -= 80;
+    rect.size.width -= 100;
+    
+    BaseLabel *label = [[BaseLabel alloc]init];
+   
     label.frame = rect;
     [self.view addSubview:label];
-    
+
+    label.userInteractionEnabled = true;
     label.backgroundColor = [UIColor whiteColor];
     label.numberOfLines = 0;
     label.attributedText = attributedStringM;
-    
-//    self.textView.frame = CGRectMake(10, 100, 300, 500);
+    label.bounds = CGRectMake(0, 0, label.currentTextSize.width, label.currentTextSize.height);
+    [label reloadFramestter];
+
+//    self.textView.frame = rect;
 //    [self.view addSubview:self.textView];
 //    self.textView.attributedStr = attributedStringM;
+    
+    
     self.view.backgroundColor = [UIColor grayColor];
 }
 
