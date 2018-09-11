@@ -16,7 +16,7 @@ typedef void(^SingleCallBack)(void);
 @interface NSMutableAttributedString (ChangeStyle)
 + (instancetype) createWithImage: (UIImage *)image size: (CGSize)imageSize;
 + (instancetype) createWithImageNmae: (NSString *)name andImageSize: (CGSize)imageSize;
-- (NSRange) getSelfRange;
+- (NSRange) range;
 - (CFRange) getCfRange;
 
 /**
@@ -39,53 +39,55 @@ typedef void(^SingleCallBack)(void);
 - (instancetype) setupInRange:(NSRange)range andCallBack: (void(^)(NSMutableAttributedString *attributedStr))callBack;
 
 /// 设置text foregroundColor
-- (NSMutableAttributedString *(^)(UIColor *)) color;
+- (NSMutableAttributedString *(^)(UIColor *)) setUpColor;
 /// 设置font
-- (NSMutableAttributedString *(^)(UIFont *)) font;
+- (NSMutableAttributedString *(^)(UIFont *)) setUpFont;
 /// 添加link
-- (NSMutableAttributedString *(^)(NSString *)) link;
+- (NSMutableAttributedString *(^)(NSString *)) setUpLink;
 /// 字间距
-- (NSMutableAttributedString *(^)(CGFloat)) kern;
+- (NSMutableAttributedString *(^)(CGFloat)) setUpKern;
 ///背景色，
-- (NSMutableAttributedString *(^)(UIColor *color)) backgroundColor;
+- (NSMutableAttributedString *(^)(UIColor *color)) setUpBackgroundColor;
 ///字符连体，NSLigatureAttributeName
-- (NSMutableAttributedString *(^)(BOOL isLigature))isLigature;
+- (NSMutableAttributedString *(^)(BOOL isLigature)) setUpIsLigature;
 //描绘边颜色
-- (NSMutableAttributedString *(^)(UIColor *color)) strokeColor;
+- (NSMutableAttributedString *(^)(UIColor *color)) setUpStrokeColor;
 //描边宽度
-- (NSMutableAttributedString *(^)(CGFloat width)) strokeWidth;
+- (NSMutableAttributedString *(^)(CGFloat width)) setUpStrokeWidth;
 /// 阴影
-- (NSMutableAttributedString *(^)(NSShadow *shadow)) shadow;
+- (NSMutableAttributedString *(^)(NSShadow *shadow)) setUpShadow;
 /// 字体效果
-- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_EffectEnum effect)) textEffect;
-- (NSMutableAttributedString *(^)(NSTextAttachment *attachment)) attachment;
+- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_EffectEnum effect)) setUpTextEffect;
+- (NSMutableAttributedString *(^)(NSTextAttachment *attachment)) setUpAttachment;
 ///基础偏移量
-- (NSMutableAttributedString *(^)(CGFloat offset)) baselineOffset;
+- (NSMutableAttributedString *(^)(CGFloat offset)) setUpBaselineOffset;
 ///下划线颜色
-- (NSMutableAttributedString *(^)(UIColor *color)) underLineColor;
+- (NSMutableAttributedString *(^)(UIColor *color)) setUpUnderLineColor;
 /// 删除线
-- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_LineStyleEnum style, UIColor *color,NSNumber *OffsetAttributeName))strikethrough;
+- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_LineStyleEnum style, UIColor *color,NSNumber *OffsetAttributeName))setUpStrikethrough;
 /// 字体倾斜度
-- (NSMutableAttributedString *(^)(CGFloat obliqueness)) obliqueness;
+- (NSMutableAttributedString *(^)(CGFloat obliqueness)) setUpObliqueness;
 
 ///字体扁平化 {NSExpansionAttributeName:@(1.0)}
-- (NSMutableAttributedString *(^)(CGFloat expansion)) expansion;
+- (NSMutableAttributedString *(^)(CGFloat expansion)) setUpExpansion;
 
 ///垂直或者水平，value是 NSNumber，0表示水平，1垂直
-- (NSMutableAttributedString *(^)(BOOL isVertical)) isVertical;
+- (NSMutableAttributedString *(^)(BOOL isVertical)) setUpIsVertical;
 
 /// 展示风格 绘图的风格（居中，换行模式，间距等诸多风格），value是NSParagraphStyle对象 NSMutableParagraphStyle
-- (NSMutableAttributedString *(^)(NSMutableParagraphStyle *style)) mutableParagraphStyle;
+- (NSMutableAttributedString *(^)(NSMutableParagraphStyle *style)) setUpMutableParagraphStyle;
+
+
 
 /**
  * @brief 添加下划线
  * color 颜色.  style
  * @return 返回self.
  */
-- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_LineStyleEnum style, UIColor *color)) addBottomLine;
+- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_LineStyleEnum style, UIColor *color)) setUpAddBottomLine;
 
 /// 描边
-- (NSMutableAttributedString *(^)(CGFloat width, UIColor *color)) stroke;
+- (NSMutableAttributedString *(^)(CGFloat width, UIColor *color)) setUpStroke;
 
 /**
  * @brief    简要描述.
@@ -101,7 +103,7 @@ typedef void(^SingleCallBack)(void);
  *      [weakSelf singleEventFunc];
  *      });
  */
-- (NSMutableAttributedString *(^)(SingleCallBack singleCallBack)) registerSingleClick;
+- (NSMutableAttributedString *(^)(SingleCallBack singleCallBack)) setUpRegisterSingleClick;
 
 
 // MARK: - 对象方法

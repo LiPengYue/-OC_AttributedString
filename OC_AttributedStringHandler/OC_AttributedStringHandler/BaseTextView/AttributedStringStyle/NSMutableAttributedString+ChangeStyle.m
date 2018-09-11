@@ -203,7 +203,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
     return range;
 }
 
-- (NSRange) getSelfRange {
+- (NSRange) range {
     return NSMakeRange(0, self.length);
 }
 
@@ -232,7 +232,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 
 
 
-- (NSMutableAttributedString *(^)(UIColor *)) color {
+- (NSMutableAttributedString *(^)(UIColor *)) setUpColor {
     __weak typeof (self) weakSelf = self;
     return ^(UIColor *color) {
         [weakSelf foregroundColor:color];
@@ -240,7 +240,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
     };
 }
 
-- (NSMutableAttributedString *(^)(UIFont *)) font {
+- (NSMutableAttributedString *(^)(UIFont *)) setUpFont {
     __weak typeof (self) weakSelf = self;
     return ^(UIFont *font) {
         [weakSelf font:font];
@@ -249,7 +249,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 ///背景色，
-- (NSMutableAttributedString *(^)(UIColor *color)) backgroundColor {
+- (NSMutableAttributedString *(^)(UIColor *color)) setUpBackgroundColor {
     __weak typeof (self) weakSelf = self;
     return ^(UIColor *color) {
         [weakSelf backgroundColor:color];
@@ -258,7 +258,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 ///字符连体，NSLigatureAttributeName
-- (NSMutableAttributedString *(^)(BOOL isLigature))isLigature{
+- (NSMutableAttributedString *(^)(BOOL isLigature)) setUpIsLigature{
     __weak typeof (self) weakSelf = self;
     return ^(BOOL isLigature) {
         [weakSelf ligature:isLigature];
@@ -268,7 +268,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 
 
 //描绘边颜色
-- (NSMutableAttributedString *(^)(UIColor *color)) strokeColor{
+- (NSMutableAttributedString *(^)(UIColor *color)) setUpStrokeColor{
     __weak typeof (self) weakSelf = self;
     return ^(UIColor *color) {
         [weakSelf strokeColor:color];
@@ -277,7 +277,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 //描边宽度
-- (NSMutableAttributedString *(^)(CGFloat width)) strokeWidth {
+- (NSMutableAttributedString *(^)(CGFloat width)) setUpStrokeWidth {
     __weak typeof (self) weakSelf = self;
     return ^(CGFloat width) {
         [weakSelf strokeWidth:width];
@@ -286,7 +286,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 /// 阴影
-- (NSMutableAttributedString *(^)(NSShadow *shadow)) shadow {
+- (NSMutableAttributedString *(^)(NSShadow *shadow)) setUpShadow {
     __weak typeof (self) weakSelf = self;
     return ^(NSShadow *shadow) {
         [weakSelf shadow:shadow];
@@ -295,7 +295,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 /// 字体效果
-- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_EffectEnum effect)) textEffect {
+- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_EffectEnum effect)) setUpTextEffect {
     __weak typeof (self) weakSelf = self;
     return ^(NSMutableAttributedString_changeStyle_EffectEnum effect) {
         NSString *effectStr;
@@ -308,15 +308,17 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
         return weakSelf;
     };
 }
-- (NSMutableAttributedString *(^)(NSTextAttachment *attachment)) attachment {
+
+- (NSMutableAttributedString *(^)(NSTextAttachment *attachment)) setUpAttachment {
     __weak typeof (self) weakSelf = self;
     return ^(NSTextAttachment *attachment) {
         [weakSelf attachment:attachment];
         return weakSelf;
     };
 }
+
 ///基础偏移量
-- (NSMutableAttributedString *(^)(CGFloat offset)) baselineOffset {
+- (NSMutableAttributedString *(^)(CGFloat offset)) setUpBaselineOffset {
     __weak typeof (self) weakSelf = self;
     return ^(CGFloat offset) {
         [weakSelf baselineOffset:offset];
@@ -325,7 +327,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 ///下划线颜色
-- (NSMutableAttributedString *(^)(UIColor *color)) underLineColor {
+- (NSMutableAttributedString *(^)(UIColor *color)) setUpUnderLineColor {
     __weak typeof (self) weakSelf = self;
     return ^(UIColor *color) {
         [weakSelf underLineColor:color];
@@ -334,7 +336,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 /// 删除线颜色
-- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_LineStyleEnum style, UIColor *color,NSNumber *OffsetAttributeName))strikethrough {
+- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_LineStyleEnum style, UIColor *color,NSNumber *OffsetAttributeName)) setUpStrikethrough {
     __weak typeof (self) weakSelf = self;
     return ^(NSMutableAttributedString_changeStyle_LineStyleEnum style, UIColor *color,NSNumber *OffsetAttributeName) {
         NSNumber *styleNumbser = [self getNumbserWithStyle:style];
@@ -350,7 +352,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 /// 字体倾斜度
-- (NSMutableAttributedString *(^)(CGFloat obliqueness)) obliqueness {
+- (NSMutableAttributedString *(^)(CGFloat obliqueness)) setUpObliqueness {
     __weak typeof (self) weakSelf = self;
     return ^(CGFloat obliqueness) {
         [weakSelf obliqueness:obliqueness];
@@ -359,7 +361,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 ///字体扁平化 {NSExpansionAttributeName:@(1.0)}
-- (NSMutableAttributedString *(^)(CGFloat expansion)) expansion {
+- (NSMutableAttributedString *(^)(CGFloat expansion)) setUpExpansion {
     __weak typeof (self) weakSelf = self;
     return ^(CGFloat expansion) {
         [weakSelf expansion:expansion];
@@ -368,7 +370,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 ///垂直或者水平，value是 NSNumber，0表示水平，1垂直
-- (NSMutableAttributedString *(^)(BOOL isVertical)) isVertical {
+- (NSMutableAttributedString *(^)(BOOL isVertical)) setUpIsVertical {
     __weak typeof (self) weakSelf = self;
     return ^(BOOL isVertical) {
         [weakSelf verticalGlyph:isVertical];
@@ -377,7 +379,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 /// 展示风格 绘图的风格（居中，换行模式，间距等诸多风格），value是NSParagraphStyle对象 NSMutableParagraphStyle
-- (NSMutableAttributedString *(^)(NSMutableParagraphStyle *style)) mutableParagraphStyle {
+- (NSMutableAttributedString *(^)(NSMutableParagraphStyle *style)) setUpMutableParagraphStyle {
     __weak typeof (self) weakSelf = self;
     return ^(NSMutableParagraphStyle *style) {
         [weakSelf mutableParagraphStyle:style];
@@ -387,7 +389,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 
 
 
-- (NSMutableAttributedString *(^)(NSString *)) link {
+- (NSMutableAttributedString *(^)(NSString *)) setUpLink {
     __weak typeof (self) weakSelf = self;
     return ^(NSString *link) {
         [weakSelf linkString:link];
@@ -395,7 +397,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
     };
 }
 
-- (NSMutableAttributedString *(^)(CGFloat)) kern {
+- (NSMutableAttributedString *(^)(CGFloat)) setUpKern {
     __weak typeof (self) weakSelf = self;
     return ^(CGFloat kern) {
         [weakSelf kern:kern];
@@ -404,7 +406,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 
-- (NSMutableAttributedString *(^)(SingleCallBack singleCallBack)) registerSingleClick {
+- (NSMutableAttributedString *(^)(SingleCallBack singleCallBack)) setUpRegisterSingleClick {
      __weak typeof (self) weakSelf = self;
     return ^(SingleCallBack singleCallBack) {
         if (singleCallBack) {
@@ -418,7 +420,7 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
  * @brief 添加下划线
  * @return 返回self.
  */
-- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_LineStyleEnum style, UIColor *color)) addBottomLine {
+- (NSMutableAttributedString *(^)(NSMutableAttributedString_changeStyle_LineStyleEnum style, UIColor *color)) setUpAddBottomLine {
     __weak typeof (self) weakSelf = self;
     return ^(NSMutableAttributedString_changeStyle_LineStyleEnum style,UIColor *color) {
         [weakSelf addBottomLineWithColor:color andStyle:style];
@@ -427,65 +429,12 @@ static NSString *const k_NSMutableAttributedStringCurrenRange = @"NSMutableAttri
 }
 
 /// 描边
-- (NSMutableAttributedString *(^)(CGFloat width, UIColor *color)) stroke {
+- (NSMutableAttributedString *(^)(CGFloat width, UIColor *color)) setUpStroke {
     __weak typeof (self) weakSelf = self;
     return ^(CGFloat width, UIColor *color) {
         [weakSelf strokeWithWidth:width andColor:color];
         return weakSelf;
     };
 }
-
-
-
-
-
-//- (NSMutableAttributedString *(^)(SEL, NSObject *target, NSObject *data)) singleClick {
-//    __weak typeof (self) weakSelf = self;
-//    return ^(SEL selecter, NSObject *target, NSObject *data) {
-//
-//        NSLog(@"str指针内存地址：%x",&target);
-//        NSLog(@"str指针所指向对象的地址：%p\n",target);
-//        NSString *selecterStr = NSStringFromSelector(selecter);
-//
-//        [weakSelf addAttribute:k_NSMutableAttributedStringSingleClick value:selecterStr range:[weakSelf getRange]];
-//
-//        [weakSelf addAttribute:k_NSMutableAttributedStringSingleData value:data range:[weakSelf getRange]];
-//
-//        //MARK: - 出现循环引用问题
-//        [weakSelf addAttribute:k_NSMutableAttributedStringSingleTarget value:target range:[weakSelf getRange]];
-//        return weakSelf;
-//    };
-//}
-
-
-//- (NSMutableAttributedString *(^)(NSObject *))target {
-//    __weak typeof (self) weakSelf = self;
-//    return ^(NSObject *obj){
-//        NSLog(@"%@",obj);
-////        [weakSelf addAttribute:@"qq" value:obj range: [weakSelf getRange]];
-////        weakSelf.eventTarget = obj;
-//        return weakSelf;
-//    };
-//}
-//- (NSMutableAttributedString *) test:(NSObject *)obj; {
-//    NSLog(@"test 指针内存地址：%x",&obj);
-//    NSLog(@"test 指针所指向对象的地址：%p\n",obj);
-//    return self;
-//}
-
-
-
-// MARK: - set && get
-
-//- (void) setEventTarget:(NSObject *)eventTarget {
-//
-//    objc_setAssociatedObject(self, &keventTarget, eventTarget, OBJC_ASSOCIATION_ASSIGN);
-//    if (self.eventTarget) {
-//        __weak typeof(self.eventTarget) weakEvent = self.eventTarget;
-//    }
-//}
-//- (NSObject *) eventTarget {
-//    return objc_getAssociatedObject(self, &keventTarget);
-//}
 @end
 

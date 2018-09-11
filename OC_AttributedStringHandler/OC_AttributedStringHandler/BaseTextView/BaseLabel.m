@@ -60,16 +60,32 @@
     if (!self.attributedStr.length) {
         return idx;
     }
-    
+
     CGSize size = self.currentTextSize;
-    
     CGFloat offsetY = (self.frame.size.height - size.height)/2;
+    offsetY = offsetY < 0 ? 0 : offsetY;
     
-    for (int i = 0; i < count; i++) {
+    if (self.numberOfLines <= 0) {
+        CTLineRef line = (__bridge CTLineRef)(arrLines[0]);
+        CGPoint linePoint = origins[0];
         CGPoint pointOffset = point;
         pointOffset.y -= offsetY;
+        pointOffset.x -= 4;
+        // 获得每一行的CGRect信息
+        CGRect flippedRect = [self getLineBounds:line
+                                           point:linePoint];
+        CGRect rect = CGRectApplyAffineTransform(flippedRect, transform);
+    }
+    
+   
+    NSInteger forCount = self.numberOfLines == 1 ? 1 : count;
+    for (int i = 0; i < forCount; i++) {
+        CGPoint pointOffset = point;
         CGPoint linePoint = origins[i];
         CTLineRef line = (__bridge CTLineRef)(arrLines[i]);
+        pointOffset.y -= offsetY;
+        pointOffset.x -= 4;
+        
         // 获得每一行的CGRect信息
         CGRect flippedRect = [self getLineBounds:line
                                            point:linePoint];
@@ -80,6 +96,7 @@
             // 将点击的坐标转换成相对于当前行的坐标
             CGPoint relativePoint = CGPointMake(pointOffset.x-CGRectGetMinX(rect),
                                                 pointOffset.y-CGRectGetMinY(rect));
+            
             // 获得当前点击坐标对应的字符串偏移
             idx = CTLineGetStringIndexForPosition(line, relativePoint);
             
@@ -89,9 +106,63 @@
     return idx;
 }
 
+- (CGSize)getNumberOfLineFrame:(NSInteger)numberOfLines {
+    CGFloat width = self.frame.size.width;
+    if (width <= 0) {
+        width = self.maxWidth;
+        [self layoutSubviews];
+    }
+
+    if (!self.ctFramesetter || self.maxWidth <= 0) {
+        return CGSizeZero;
+    }
+    
+    if (!self.attributedStr.length) {
+        return CGSizeZero;
+    }
+    CFRange cfRange = [self.attributedStr getCfRange];
+    CGSize size = CTFramesetterSuggestFrameSizeWithConstraints(self.ctFramesetter, cfRange, nil, CGSizeMake(width, CGFLOAT_MAX), nil);
+    
+    NSArray * arrLines = (NSArray *)CTFrameGetLines(self.ctFrame);
+    if (!arrLines) {
+        return CGSizeZero;
+    }
+    
+    CFIndex count = arrLines.count;
+    if (numberOfLines <= 0 || numberOfLines >= count) {
+        return size;
+    }
+    
+    // 获得每一行的origin坐标
+    CGPoint origins[count];
+    CTFrameGetLineOrigins(self.ctFrame, CFRangeMake(0,0), origins);
+    
+    // 翻转坐标系
+    CGAffineTransform transform =  CGAffineTransformMakeTranslation(0, self.bounds.size.height);
+    
+    transform = CGAffineTransformScale(transform, 1.f, -1.f);
+    NSInteger i = numberOfLines;
+    
+    CTLineRef line = (__bridge CTLineRef)(arrLines[i]);
+    CGPoint linePoint = origins[i];
+    CGRect flippedRect = [self getLineBounds:line
+                                       point:linePoint];
+    CGRect rect = CGRectApplyAffineTransform(flippedRect, transform);
+    size.height = CGRectGetMaxY(rect);
+    return size;
+}
+
+/// 获取某一行的frame
+- (CGRect)getLineFrame:(NSInteger)numberOfLine {
+    CGRect rect = CGRectZero;
+    CGSize size = [self getNumberOfLineFrame:numberOfLine];
+    CGFloat y = (self.frame.size.height - size.height)/2;
+    rect.size = size;
+    rect.origin.y = y;
+    return rect;
+}
+
 // MARK: network
-// MARK: handle views
-// MARK: handle event
 // MARK: properties get && set
 
 - (NSMutableAttributedString *) attributedStr {
@@ -118,8 +189,10 @@
     if (!self.frame.size.width) return nil;
     if (!_ctFrame) {
         CFRange range = CFRangeMake(0, self.attributedStr.length);
-        
-        UIBezierPath *path = [UIBezierPath bezierPathWithRect:self.bounds];
+        CGRect rect = self.bounds;
+//        rect.origin.y -= 44;
+//        rect.size.height -= 8;
+        UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
         
         _ctFrame = CTFramesetterCreateFrame(self.ctFramesetter, range, path.CGPath, nil);
     }
@@ -137,16 +210,11 @@
 }
 
 - (CGSize) currentTextSize {
-    if (self.frame.size.width <= 0) {
-        return CGSizeZero;
-    }
-    if (!self.ctFramesetter) {
-        return CGSizeZero;
-    }
-    
-    CFRange cfRange = [self.attributedStr getCfRange];
-    CGSize size = CTFramesetterSuggestFrameSizeWithConstraints(self.ctFramesetter, cfRange, nil, self.frame.size, nil);
-    return size;
+    return [self getNumberOfLineFrame:self.numberOfLines];
+}
+
+- (CGSize) allTextSize {
+    return [self getNumberOfLineFrame:-1];
 }
 
 // MARK:life cycles

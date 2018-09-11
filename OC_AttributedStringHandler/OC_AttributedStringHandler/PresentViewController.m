@@ -9,6 +9,8 @@
 #import "PresentViewController.h"
 #import "BaseTextView.h"
 #import "BaseLabel.h"
+#import "NSMutableParagraphStyle+Handler.h"
+
 @interface PresentViewController ()
 @property (nonatomic,strong) BaseTextView *textView;
 @end
@@ -19,20 +21,21 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"str指针内存地址：%x",&self);
-    NSLog(@"str指针所指向对象的地址：%p\n",self);
+
     NSMutableAttributedString *attributedStringM = [[NSMutableAttributedString alloc]initWithString: [self getString]];
     
     
     NSRange ragne1 = NSMakeRange(0, attributedStringM.length);
+    
     [attributedStringM setupInRange: ragne1 andCallBack:^(NSMutableAttributedString *str) {
         str
-        .color([UIColor grayColor])
-        .font([UIFont systemFontOfSize:23]);
+        .setUpColor([UIColor grayColor])
+        .setUpFont([UIFont systemFontOfSize:23]);
     }];
     
     NSArray <AttributedStrFiltrateRuler *>*array = [attributedStringM filtrates:[self createRulers]];
     __weak typeof(self) weakSelf = self;
+    
     for (AttributedStrFiltrateRuler *ruler in array) {
         
         [ruler.textCheckingResultArray enumerateObjectsUsingBlock:^(NSTextCheckingResult * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -45,49 +48,61 @@
             [attributedStringM setupInRange:obj.range andCallBack:^(NSMutableAttributedString *attributedStr) {
                 
                 attributedStr
-                .color(ruler.color)
-                .font([UIFont systemFontOfSize:30])
-                .isLigature(true)
-                .kern(12)
-                .backgroundColor([UIColor lightGrayColor])
-                .strikethrough(lineStyle, [UIColor blueColor],@0)
-                .stroke(1,[UIColor blueColor])
-                .shadow(shadow)
-                .addBottomLine(lineStyle,[UIColor redColor])
-                .registerSingleClick(^{
-                    attributedStringM.font([UIFont systemFontOfSize:20]);
+                .setUpColor(ruler.color)
+                .setUpFont([UIFont systemFontOfSize:30])
+                .setUpIsLigature(true)
+                .setUpKern(12)
+                .setUpBackgroundColor([UIColor lightGrayColor])
+                .setUpStrikethrough(lineStyle, [UIColor blueColor],@0)
+                .setUpStroke(1,[UIColor blueColor])
+                .setUpShadow(shadow)
+                .setUpAddBottomLine(lineStyle,[UIColor redColor])
+                .setUpRegisterSingleClick(^{
+                    attributedStringM.setUpFont([UIFont systemFontOfSize:40]);
                     [weakSelf dismissViewControllerAnimated:true completion:nil];
                 });
             }];
         }];
     }
 
+    
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc]init];
+    
+    style
+    .setUpLineSpacing(16)
+    .setUpFirstLineHeadIndent(3)
+    .setUpLineBreakMode(NSLineBreakByTruncatingMiddle)
+    .setUpFirstLineHeadIndent(10);
+    
+    attributedStringM.setUpMutableParagraphStyle(style);
+    
+    
+    [attributedStringM addAttribute:@"aa" value:self range:[attributedStringM range]];
+    
     NSMutableAttributedString *attributedImageStr = [NSMutableAttributedString createWithImage:[UIImage imageNamed:@"1"] size:CGSizeMake(40, 140)];
-    attributedImageStr.font([UIFont systemFontOfSize:40 weight:140]);
-//    [attributedStringM appendAttributedString:attributedImageStr];
+    attributedImageStr.setUpFont([UIFont systemFontOfSize:40 weight:140]);
+
     
     CGRect rect = self.view.bounds;
-    rect.origin.y += 40;
-    rect.origin.x += 50;
-    rect.size.height -= 80;
-    rect.size.width -= 100;
+//    rect.origin.y += 40;
+//    rect.origin.x += 50;
+//    rect.size.height -= 80;
+//    rect.size.width -= 100;
+    
     
     BaseLabel *label = [[BaseLabel alloc]init];
-   
     label.frame = rect;
     [self.view addSubview:label];
-
     label.userInteractionEnabled = true;
     label.backgroundColor = [UIColor whiteColor];
     label.numberOfLines = 0;
     label.attributedText = attributedStringM;
-    label.bounds = CGRectMake(0, 0, label.currentTextSize.width, label.currentTextSize.height);
-    [label reloadFramestter];
+    CGFloat height = 100;
 
-//    self.textView.frame = rect;
-//    [self.view addSubview:self.textView];
-//    self.textView.attributedStr = attributedStringM;
-    
+//    label.maxWidth = self.view.frame.size.width;
+//    height = label.currentTextSize.height;
+//
+//    [label reloadFramestter];
     
     self.view.backgroundColor = [UIColor grayColor];
 }
@@ -100,8 +115,7 @@
 }
 
 - (void) click: (NSObject *)data {
-    NSLog(@"str指针内存地址：%x",&self);
-    NSLog(@"str指针所指向对象的地址：%p\n",self);
+
     [self dismissViewControllerAnimated:false completion:nil];
 }
 
