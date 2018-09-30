@@ -22,6 +22,7 @@
 		86793A1A2147CC1F00290FD7 /* MutableAttributedStringStyleEventHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 86793A122147CC1F00290FD7 /* MutableAttributedStringStyleEventHandler.m */; };
 		86793A1B2147CC1F00290FD7 /* BaseLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 86793A132147CC1F00290FD7 /* BaseLabel.m */; };
 		86793A1E2147CC5100290FD7 /* PresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86793A1C2147CC5100290FD7 /* PresentViewController.m */; };
+		86DBAF79215DC8D9002B9FE7 /* NSString+StringHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 86DBAF78215DC8D9002B9FE7 /* NSString+StringHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,8 @@
 		86793A132147CC1F00290FD7 /* BaseLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseLabel.m; sourceTree = "<group>"; };
 		86793A1C2147CC5100290FD7 /* PresentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentViewController.m; sourceTree = "<group>"; };
 		86793A1D2147CC5100290FD7 /* PresentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentViewController.h; sourceTree = "<group>"; };
+		86DBAF77215DC8D9002B9FE7 /* NSString+StringHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+StringHandler.h"; sourceTree = "<group>"; };
+		86DBAF78215DC8D9002B9FE7 /* NSString+StringHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringHandler.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +114,8 @@
 				86793A132147CC1F00290FD7 /* BaseLabel.m */,
 				86793A042147CC1F00290FD7 /* FiltrateRuler */,
 				86793A0B2147CC1F00290FD7 /* AttributedStringStyle */,
+				86DBAF77215DC8D9002B9FE7 /* NSString+StringHandler.h */,
+				86DBAF78215DC8D9002B9FE7 /* NSString+StringHandler.m */,
 			);
 			path = BaseTextView;
 			sourceTree = "<group>";
@@ -219,6 +224,7 @@
 				86793A192147CC1F00290FD7 /* NSMutableParagraphStyle+Handler.m in Sources */,
 				86793A162147CC1F00290FD7 /* NSAttributedString+FiltrateRuler.m in Sources */,
 				86793A152147CC1F00290FD7 /* NSString+FiltrateRuler.m in Sources */,
+				86DBAF79215DC8D9002B9FE7 /* NSString+StringHandler.m in Sources */,
 				86793A172147CC1F00290FD7 /* AttributedStrFiltrateRuler.m in Sources */,
 				86793A1A2147CC1F00290FD7 /* MutableAttributedStringStyleEventHandler.m in Sources */,
 				86793A1B2147CC1F00290FD7 /* BaseLabel.m in Sources */,

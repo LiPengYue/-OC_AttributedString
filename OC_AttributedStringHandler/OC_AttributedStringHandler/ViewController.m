@@ -10,6 +10,8 @@
 #import "PresentViewController.h"
 #import "NSMutableParagraphStyle+Handler.h"
 #import "NSMutableAttributedString+ChangeStyle.h"
+#import "NSString+StringHandler.h"
+
 @interface ViewController ()
 
 @end
@@ -18,6 +20,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+//    NSString *str1 = @"aaa".h_addFloat(11.09099,4,true);
+    NSString *str1 = @"12342314.000000"
+                    .deleteLastStr(@"0")
+                    .deleteLastChar()
+                    .addFloat(111.010825,3,true);
+    NSLog(@"%@",str1);
+    return;
     
     UIButton *button = [UIButton new];
     [self.view addSubview:button];
